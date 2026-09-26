@@ -170,6 +170,16 @@
                 });
             });
 
+            document.addEventListener('pointerdown', (e) => {
+                if (e.pointerType !== 'touch') return;
+
+                document.documentElement.classList.add('touch-mode');
+
+                if (!e.target.closest('.card-flip-container')) {
+                    flipCards.forEach(card => card.classList.remove('flipped'));
+                }
+            });
+
             // Si se hace click o tap fuera de cualquier tarjeta, las regresa a su posición original
             document.addEventListener('click', () => {
                 flipCards.forEach(c => c.classList.remove('flipped'));

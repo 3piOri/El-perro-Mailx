@@ -144,7 +144,7 @@ body {
 
 /* El hover solo se usa en equipos con puntero; el tacto controla .flipped. */
 @media (hover: hover) and (pointer: fine) {
-    .card-flip-container:hover .card-flip-inner {
+    html:not(.touch-mode) .card-flip-container:hover .card-flip-inner {
         transform: rotateY(180deg);
     }
 }
