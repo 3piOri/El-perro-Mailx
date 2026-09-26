@@ -142,8 +142,13 @@ body {
     transform-style: preserve-3d;
 }
 
-/* Girar 180 grados al pasar el ratón o hacer clic/tap */
-.card-flip-container:hover .card-flip-inner,
+/* El hover solo se usa en equipos con puntero; el tacto controla .flipped. */
+@media (hover: hover) and (pointer: fine) {
+    .card-flip-container:hover .card-flip-inner {
+        transform: rotateY(180deg);
+    }
+}
+
 .card-flip-container.flipped .card-flip-inner {
     transform: rotateY(180deg);
 }
@@ -429,6 +434,8 @@ body {
     .whatsapp-btn i {
         font-size: 26px;
     }
+}
+
 .paws-container {
     position: absolute;
     top: 0;
