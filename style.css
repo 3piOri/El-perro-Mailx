@@ -46,7 +46,7 @@ body {
 .header {
     text-align: center;
     padding: 40px 20px 20px;
-    background: linear-gradient(360deg, #333333 15%, #ffffff 100%);
+    background: linear-gradient(360deg, #1a1a1a 15%, #ffffff 100%);
     position: relative;
     z-index: 1;
 }
