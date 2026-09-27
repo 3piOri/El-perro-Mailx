@@ -20,7 +20,7 @@
 
 body {
     font-family: var(--font-main);
-    background-color: black;
+    background-color: rgba(0, 0, 0, 0.9);
     color: var(--color-text);
     overflow-x: hidden;
     display: flex;
@@ -46,7 +46,7 @@ body {
 .header {
     text-align: center;
     padding: 40px 20px 20px;
-    background: linear-gradient(360deg, black 15%, #ffffff 100%);
+    background: linear-gradient(360deg, #1a1a1a 15%, #ffffff 100%);
     position: relative;
     z-index: 1;
 }
@@ -458,4 +458,29 @@ body {
 .footer-content {
     position: relative;
     z-index: 2;
+	/* Estilos para íconos de redes sociales en el footer */
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.social-links a {
+    color: #ffffff;
+    font-size: 1.4rem;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.social-links a:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-3px);
 }
