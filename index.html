@@ -87,6 +87,7 @@
                     <div class="card-back">
                         <h3>Estancia Canina</h3>
                         <p>Estancia libre de jaulas, como en tu propia casa y con compañía la mayor parte del día. (sesión de paseo incluida)</p>
+                         <span class="badge">Diurna / Nocturna</span>
                     </div>
                 </div>
             </div>
@@ -128,6 +129,12 @@
                aria-label="Instagram de El Perro Malix">
                 <i class="fab fa-instagram"></i>
             </a>
+            <a href="https://maps.app.goo.gl/XzPG1cyACXnTHkEh8"
+               target="_blank"
+               rel="noopener noreferrer"
+               aria-label="Buscar El Perro Malix en Google Maps">
+                <i class="fas fa-map-location-dot"></i>
+            </a>
         </div>
       </div>
     </footer>
@@ -164,19 +171,45 @@
 
             // 2. Control interactivo de las tarjetas (Móvil / Táctil)
             const flipCards = document.querySelectorAll('.card-flip-container');
+            const hoverTimers = new WeakMap();
+
+            function clearHoverTimer(card) {
+                clearTimeout(hoverTimers.get(card));
+                hoverTimers.delete(card);
+            }
 
             flipCards.forEach(card => {
+                card.addEventListener('pointerenter', (e) => {
+                    if (e.pointerType !== 'mouse' && e.pointerType !== 'pen') return;
+
+                    clearHoverTimer(card);
+                    hoverTimers.set(card, setTimeout(() => {
+                        hoverTimers.delete(card);
+                        if (card.classList.contains('active')) return;
+
+                        flipCards.forEach(c => c.classList.remove('flipped', 'active'));
+                        card.classList.add('flipped', 'active');
+                        document.body.classList.add('card-modal-open');
+                    }, 1000));
+                });
+
+                card.addEventListener('pointerleave', () => clearHoverTimer(card));
+                card.addEventListener('pointerdown', () => clearHoverTimer(card));
+
                 card.addEventListener('click', (e) => {
                     e.stopPropagation(); // Evita que el click se propague
+                    clearHoverTimer(card);
                     
                     const isFlipped = card.classList.contains('flipped');
                     
                     // Cierra todas las demás tarjetas abiertas
-                    flipCards.forEach(c => c.classList.remove('flipped'));
+                    flipCards.forEach(c => c.classList.remove('flipped', 'active'));
+                    document.body.classList.remove('card-modal-open');
 
                     // Si la tarjeta no estaba volteada, la voltea
                     if (!isFlipped) {
-                        card.classList.add('flipped');
+                        card.classList.add('flipped', 'active');
+                        document.body.classList.add('card-modal-open');
                     }
                 });
 
@@ -194,13 +227,22 @@
                 document.documentElement.classList.add('touch-mode');
 
                 if (!e.target.closest('.card-flip-container')) {
-                    flipCards.forEach(card => card.classList.remove('flipped'));
+                    flipCards.forEach(card => card.classList.remove('flipped', 'active'));
+                    document.body.classList.remove('card-modal-open');
                 }
             });
 
             // Si se hace click o tap fuera de cualquier tarjeta, las regresa a su posición original
             document.addEventListener('click', () => {
-                flipCards.forEach(c => c.classList.remove('flipped'));
+                flipCards.forEach(c => c.classList.remove('flipped', 'active'));
+                document.body.classList.remove('card-modal-open');
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key !== 'Escape') return;
+
+                flipCards.forEach(card => card.classList.remove('flipped', 'active'));
+                document.body.classList.remove('card-modal-open');
             });
 
             // 3. Generador de huellas aleatorias en el fondo
